@@ -169,16 +169,16 @@ void UpdateFrame(HWND hWnd)
 		REAL clock_centerX = clock_left + clock_radius;
 		REAL clock_centerY = clock_top  + clock_radius;
 
-		REAL clock_handWidth = clock_radius / 4.0f;
-		REAL clock_handGap = clock_handWidth * 1.75;
+		REAL clock_handWidth = (Gdiplus::REAL) (clock_radius / 4.0f);
+		REAL clock_handGap = (Gdiplus::REAL) (clock_handWidth * 1.75f);
 
-		REAL clock_minuteAngle = -M_PI_2;
-		REAL clock_hourAngle = M_PI_4;
+		REAL clock_minuteAngle = (Gdiplus::REAL) -M_PI_2;
+		REAL clock_hourAngle = (Gdiplus::REAL) M_PI_4;
 
 		if (g_AnimatedClockHands) 
 		{
-			clock_minuteAngle = timeinfo.tm_min  / 60.0f * M_PI * 2 - M_PI_2;
-			clock_hourAngle   = timeinfo.tm_hour / 12.0f * M_PI * 2 - M_PI_2 + clock_minuteAngle / 12;
+			clock_minuteAngle = (Gdiplus::REAL) (timeinfo.tm_min  / 60.0f * M_PI * 2 - M_PI_2);
+			clock_hourAngle   = (Gdiplus::REAL) (timeinfo.tm_hour / 12.0f * M_PI * 2 - M_PI_2 + clock_minuteAngle / 12);
 		}
 
 		Graphics graphics(g_hDC);
@@ -226,7 +226,11 @@ void UpdateFrame(HWND hWnd)
 			SelectObject(g_hDC, g_hSmallFont);
 			SIZE smallTextSize;
 			GetTextExtentPoint32(g_hDC, strval.c_str(), strval.size(), &smallTextSize);
-			TextOut(g_hDC, clock_left - (smallTextSize.cx - clock_diameter) / 2, (g_screenSize.cy - smallTextSize.cy) / 2, strval.c_str(), strval.size());
+			TextOut(g_hDC, 
+				(int) (clock_left - (smallTextSize.cx - clock_diameter) / 2), 
+				(int) ((g_screenSize.cy - smallTextSize.cy) / 2), 
+				strval.c_str(), 
+				(int) strval.size());
 		}
 	}
 
